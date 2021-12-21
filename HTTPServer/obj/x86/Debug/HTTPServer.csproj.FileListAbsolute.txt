@@ -2,3 +2,9 @@ C:\Users\dell\Desktop\Template\HTTPServer\bin\Debug\HTTPServer.exe
 C:\Users\dell\Desktop\Template\HTTPServer\bin\Debug\HTTPServer.pdb
 C:\Users\dell\Desktop\Template\HTTPServer\obj\x86\Debug\HTTPServer.exe
 C:\Users\dell\Desktop\Template\HTTPServer\obj\x86\Debug\HTTPServer.pdb
+C:\Users\Lite 2K\source\NetworksProject\HTTPServer\obj\x86\Debug\HTTPServer.csproj.AssemblyReference.cache
+C:\Users\Lite 2K\source\NetworksProject\HTTPServer\obj\x86\Debug\HTTPServer.csproj.CoreCompileInputs.cache
+C:\Users\Lite 2K\source\NetworksProject\HTTPServer\bin\Debug\HTTPServer.exe
+C:\Users\Lite 2K\source\NetworksProject\HTTPServer\bin\Debug\HTTPServer.pdb
+C:\Users\Lite 2K\source\NetworksProject\HTTPServer\obj\x86\Debug\HTTPServer.exe
+C:\Users\Lite 2K\source\NetworksProject\HTTPServer\obj\x86\Debug\HTTPServer.pdb

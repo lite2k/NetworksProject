@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "7034ddab-2959-4bef-9395-5908c19d2457": {
+      "ProjectGuid": "7034ddab-2959-4bef-9395-5908c19d2457",
+      "DisplayName": "HTTPServer",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

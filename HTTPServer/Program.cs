@@ -11,10 +11,12 @@ namespace HTTPServer
         static void Main(string[] args)
         {
             // TODO: Call CreateRedirectionRulesFile() function to create the rules of redirection 
-            
+            CreateRedirectionRulesFile();
             //Start server
             // 1) Make server object on port 1000
             // 2) Start Server
+            Server server = new Server(1000, "redirectionRules.txt");
+            server.StartServer();
         }
 
         static void CreateRedirectionRulesFile()
@@ -23,6 +25,11 @@ namespace HTTPServer
             // each line in the file specify a redirection rule
             // example: "aboutus.html,aboutus2.html"
             // means that when making request to aboustus.html,, it redirects me to aboutus2
+            FileStream redirectRules = new FileStream("redirectionRules.txt", FileMode.Create, FileAccess.ReadWrite);
+            StreamWriter writer = new StreamWriter(redirectRules);
+            writer.WriteLine("aboutus.html,aboutus2.html");
+            writer.Close();
+            redirectRules.Close();
         }
          
     }
