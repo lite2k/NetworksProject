@@ -1,0 +1,5 @@
+22/12/2021 11:54:00 PM
+System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at HTTPServer.Server.HandleRequest(Request request) in C:\Users\Lite 2K\source\NetworksProject\HTTPServer\Server.cs:line 163
+   at HTTPServer.Server.HandleConnection(Object obj) in C:\Users\Lite 2K\source\NetworksProject\HTTPServer\Server.cs:line 71

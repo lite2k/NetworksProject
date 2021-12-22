@@ -91,7 +91,7 @@ namespace HTTPServer
             //throw new NotImplementedException();
             string content;
             string defaultPageName = string.Empty;
-            Response response;
+            //Response response;
             string redirectionPath = string.Empty;
             try
             {
@@ -106,36 +106,50 @@ namespace HTTPServer
                 //TODO: read the physical file
 
                 // Create OK response
-                if (!request.ParseRequest())
+                bool requestStatus = request.ParseRequest();
+                string Uri;//= request.relativeURI.Replace("/", "\\");
+                if (!requestStatus)
                 {
+                    //request.relativeURI = request.relativeURI.Replace("/","\\");
 
+                    //Uri = Configuration.RootPath + request.relativeURI;
                     defaultPageName = LoadDefaultPage(Configuration.BadRequestDefaultPageName);
                     content = File.ReadAllText(defaultPageName);
-                    response = new Response(StatusCode.BadRequest, request.HeaderLines["Content-Type"],
+                    Response response = new Response(StatusCode.BadRequest, request.HeaderLines["Content-Type"],
                          content, redirectionPath,request.HttpVersion);
+                    return response;
                 }
                 else if (GetRedirectionPagePathIFExist(request.relativeURI) != string.Empty)
                 {
-                    redirectionPath = GetRedirectionPagePathIFExist(request.relativeURI);
+                    // to display page
+                    /*redirectionPath = GetRedirectionPagePathIFExist(request.relativeURI);
+                    redirectionPath = redirectionPath.Replace("/", "\\");
+                    Uri = Configuration.RootPath + redirectionPath;*/
+
+
                     defaultPageName = LoadDefaultPage(Configuration.RedirectionDefaultPageName);
                     content = File.ReadAllText(defaultPageName);
-                    response = new Response(StatusCode.Redirect, request.HeaderLines["Content-Type"],
+                    Response response = new Response(StatusCode.Redirect, request.HeaderLines["Content-Type"],
                          content, redirectionPath, request.HttpVersion);
+                    return response;
                 }
-                else if (!File.Exists(request.relativeURI))
+                else if (!File.Exists(Configuration.RootPath + request.relativeURI))
                 {
                     defaultPageName = LoadDefaultPage(Configuration.NotFoundDefaultPageName);
                     content = File.ReadAllText(defaultPageName);
-                    response = new Response(StatusCode.NotFound, request.HeaderLines["Content-Type"],
+                    Response response = new Response(StatusCode.NotFound, request.HeaderLines["Content-Type"],
                          content, redirectionPath, request.HttpVersion);
+                    return response;
                 }
                 else
                 {
-                    content = File.ReadAllText(request.relativeURI);
-                    response = new Response(StatusCode.OK, request.HeaderLines["Content-Type"],
+                    Uri = Configuration.RootPath + request.relativeURI.Replace("/","\\");
+                    content = File.ReadAllText(Uri);
+                    Response response = new Response(StatusCode.OK, request.HeaderLines["Content-Type"],
                          content, redirectionPath, request.HttpVersion);
+                    return response;
                 }
-                return response;
+                
 
 
             }
@@ -146,7 +160,7 @@ namespace HTTPServer
                 Logger.LogException(ex);
                 defaultPageName = LoadDefaultPage(Configuration.InternalErrorDefaultPageName);
                 content = File.ReadAllText(defaultPageName);
-                response = new Response(StatusCode.InternalServerError, request.HeaderLines["Content-Type"],
+                Response response = new Response(StatusCode.InternalServerError, request.HeaderLines["Content-Type"],
                      content, redirectionPath, request.HttpVersion);
                 return response;
             }
@@ -183,6 +197,7 @@ namespace HTTPServer
 
         private void LoadRedirectionRules(string filePath)
         {
+            Configuration.RedirectionRules = new Dictionary<string, string>();
             try
             {
                 // TODO: using the filepath paramter read the redirection rules from file 
@@ -192,7 +207,7 @@ namespace HTTPServer
                 while (reader.Peek() != -1)
                 {
                     string[] rules = reader.ReadLine().Split(',');
-                    Configuration.RedirectionRules[rules[0]] = rules[1];
+                    Configuration.RedirectionRules.Add(rules[0], rules[1]);
                 }
             }
             catch (Exception ex)

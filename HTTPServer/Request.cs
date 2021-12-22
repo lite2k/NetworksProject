@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace HTTPServer
         string[] requestLines;
         RequestMethod method;
         public string relativeURI;
-        Dictionary<string, string> headerLines;
+        Dictionary<string, string> headerLines = new Dictionary<string, string>();
         HTTPVersion httpVersion;
         string requestString;
         string[] contentLines;
@@ -57,15 +58,15 @@ namespace HTTPServer
             // Validate blank line exists
 
             // Load header lines into HeaderLines dictionary
-            string[] Delimeter = new string[] {"\r\n"};
-            requestLines = requestString.Split(Delimeter,StringSplitOptions.None);
-            if(!(ParseRequestLine() && LoadHeaderLines()))
+            string[] Delimeter = new string[] { "\r\n" };
+            requestLines = requestString.Split(Delimeter, StringSplitOptions.None);
+            if (!ParseRequestLine())
                 return false;
 
-            if (method == RequestMethod.POST)
-                if(!LoadContentLines())
-                    return false;
-
+            //if (method == RequestMethod.POST)
+            //    if (!LoadContentLines())
+            //        return false;
+            
             return true;
         }
 
@@ -90,7 +91,7 @@ namespace HTTPServer
                     break;
                 default:
                     return false;
-                    
+
             }
             switch (line[2])
             {
@@ -104,7 +105,8 @@ namespace HTTPServer
                     httpVersion = HTTPVersion.HTTP09;
                     break;
             }
-            return true;
+           bool res = LoadHeaderLines();
+            return res;
         }
 
         private bool ValidateIsURI(string uri)
@@ -116,13 +118,14 @@ namespace HTTPServer
         {
             if (!ValidateBlankLine())
                 return false;
-           
-            for (int i = 1; requestLines[i] != "\n" ;i++)
+
+            for (int i = 1; requestLines[i] != ""; i++)
             {
                 string line = requestLines[i];
-                string[] lines = line.Split(':');
+                string[] lines = line.Split(new[] { ':' }, 2);
                 headerLines[lines[0]] = lines[1];
             }
+            headerLines["Content-Type"] = "text/html";
             if (!headerLines.ContainsKey("Host"))
                 return false;
             return true;
@@ -131,18 +134,26 @@ namespace HTTPServer
         private bool ValidateBlankLine()
         {
 
-            if (!requestLines.Contains("\n"))
+            if (!requestLines.Contains(""))
                 return false;
             return true;
+            //return false;
         }
 
-        private bool LoadContentLines()
-        { 
-            string content = requestLines[requestLines.Length - 1];
-            if (content == "\n")
-                return false;
-            contentLines = content.Split('\n');
-            return true;
-        }
+        //private bool LoadContentLines()
+        //{
+        //    string content = requestLines[requestLines.Length - 1];
+        //    if (content == "\n")
+        //        return false;
+        //    contentLines = content.Split('\n');
+        //    return true;
+        //}
+        //private void LogRequest(string request)
+        //{
+        //    StreamWriter sr = new StreamWriter("Response.txt");
+        //    sr.WriteLine(request);
+        //    sr.Close();
+        //    sr.Close();
+        //}
     }
 }

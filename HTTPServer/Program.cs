@@ -27,7 +27,7 @@ namespace HTTPServer
             // means that when making request to aboustus.html,, it redirects me to aboutus2
             FileStream redirectRules = new FileStream("redirectionRules.txt", FileMode.Create, FileAccess.ReadWrite);
             StreamWriter writer = new StreamWriter(redirectRules);
-            writer.WriteLine("aboutus.html,aboutus2.html");
+            writer.WriteLine("/aboutus.html,/aboutus2.html");
             writer.Close();
             redirectRules.Close();
         }

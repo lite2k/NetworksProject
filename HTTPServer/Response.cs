@@ -56,16 +56,17 @@ namespace HTTPServer
 
 
             responseString = statusline + "\r\n";
-            responseString = "Date: " + DateTime.Today.ToString() + "\r\n";
-            responseString = "Server: " + Configuration.ServerType + "\r\n";
-            responseString = "Content-Type: " + contentType + "\r\n";
-            responseString = "Content-Length: " + content.Length.ToString() + "\r\n";
+            responseString += "Date: " + DateTime.Now.ToString() + "\r\n";
+            responseString += "Server: " + Configuration.ServerType + "\r\n";
+            responseString += "Content-Type: " + contentType + "\r\n";
+            responseString += "Content-Length: " + content.Length.ToString() + "\r\n";
 
             if (redirectoinPath != string.Empty)
-                responseString = "Referer: " + redirectoinPath + "\r\n";
+                responseString += "Location: " +"http://locahost:1000"+redirectoinPath.Replace("/","\\") + "\r\n";
 
-            responseString = "\n" + "\r\n";
-            responseString = content + "\r\n";
+            responseString += "" + "\r\n";
+            responseString += content + "\r\n";
+            LogResponse(responseString);
         }
 
         private string GetStatusLine(StatusCode code, string version)
@@ -93,6 +94,13 @@ namespace HTTPServer
                     break;
             }
             return statusLine;
+        }
+        private void LogResponse(string response)
+        {
+             StreamWriter sr = new StreamWriter("Response.txt");
+            sr.WriteLine(response);
+            sr.Close();
+            sr.Close();
         }
     }
 }
