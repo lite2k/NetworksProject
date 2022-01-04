@@ -29,11 +29,11 @@ namespace HTTPServer
         StatusCode code;
         string httpVer;
         List<string> headerLines = new List<string>();
-        public Response(StatusCode code, string contentType, string content, string redirectoinPath, HTTPVersion version)
-        {
             //throw new NotImplementedException();
             // TODO: Add headlines (Content-Type, Content-Length,Date, [location if there is redirection])
             // TODO: Create the response string
+        public Response(StatusCode code, string contentType, string content, string redirectoinPath, HTTPVersion version)
+        {
             this.code = code;
             switch (version)
             {
@@ -49,11 +49,11 @@ namespace HTTPServer
                 default:
                     break;
             }
-            string statusline = GetStatusLine(code, httpVer);
-            headerLines.Add(contentType);
-            headerLines.Add(content.Length.ToString());
-            headerLines.Add(DateTime.Today.ToString());
+            //headerLines.Add(contentType);
+            //headerLines.Add(content.Length.ToString());
+            //headerLines.Add(DateTime.Today.ToString());
 
+            string statusline = GetStatusLine(code, httpVer);
 
             responseString = statusline + "\r\n";
             responseString += "Date: " + DateTime.Now.ToString() + "\r\n";
@@ -62,7 +62,7 @@ namespace HTTPServer
             responseString += "Content-Length: " + content.Length.ToString() + "\r\n";
 
             if (redirectoinPath != string.Empty)
-                responseString += "Location: " +"http://locahost:1000"+redirectoinPath.Replace("/","\\") + "\r\n";
+                responseString += "Location: " +"http://locahost:1000"+redirectoinPath + "\r\n";
 
             responseString += "" + "\r\n";
             responseString += content + "\r\n";
