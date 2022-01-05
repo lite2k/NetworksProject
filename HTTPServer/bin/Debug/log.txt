@@ -1,5 +1,8 @@
-22/12/2021 11:54:00 PM
-System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
-   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
-   at HTTPServer.Server.HandleRequest(Request request) in C:\Users\Lite 2K\source\NetworksProject\HTTPServer\Server.cs:line 163
+05/01/2022 02:45:37 AM
+System.ArgumentNullException: Value cannot be null.
+Parameter name: key
+   at System.Collections.Generic.Dictionary`2.FindEntry(TKey key)
+   at System.Collections.Generic.Dictionary`2.ContainsKey(TKey key)
+   at HTTPServer.Server.GetRedirectionPagePathIFExist(String relativePath) in C:\Users\Lite 2K\source\NetworksProject\HTTPServer\Server.cs:line 172
+   at HTTPServer.Server.HandleRequest(Request request) in C:\Users\Lite 2K\source\NetworksProject\HTTPServer\Server.cs:line 96
    at HTTPServer.Server.HandleConnection(Object obj) in C:\Users\Lite 2K\source\NetworksProject\HTTPServer\Server.cs:line 71

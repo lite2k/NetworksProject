@@ -62,7 +62,7 @@ namespace HTTPServer
             responseString += "Content-Length: " + content.Length.ToString() + "\r\n";
 
             if (redirectoinPath != string.Empty)
-                responseString += "Location: " +"http://locahost:1000"+redirectoinPath.Replace("/","\\") + "\r\n";
+                responseString += "Location: " +"http://localhost:1000"+redirectoinPath + "\r\n";
 
             responseString += "" + "\r\n";
             responseString += content + "\r\n";
@@ -97,10 +97,11 @@ namespace HTTPServer
         }
         private void LogResponse(string response)
         {
-             StreamWriter sr = new StreamWriter("Response.txt");
-            sr.WriteLine(response);
-            sr.Close();
-            sr.Close();
+            FileStream fs = new FileStream("response.txt", FileMode.Create, FileAccess.ReadWrite);
+            StreamWriter writer = new StreamWriter(fs);
+            writer.WriteLine(response);
+            writer.Close();
+            fs.Close();
         }
     }
 }

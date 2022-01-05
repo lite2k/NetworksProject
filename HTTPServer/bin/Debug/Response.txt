@@ -1,16 +1,17 @@
-HTTP/1.1 200 Ok.
-Date: 23/12/2021 12:16:31 AM
+HTTP/1.1 301 Redirection Error
+Date: 05/01/2022 02:55:13 AM
 Server: FCISServer
 Content-Type: text/html
 Content-Length: 93
+Location: http://localhost:1000/aboutus2.html
 
 <!DOCTYPE html>
 <html>
 <body>
 
-<h1>About us 2</h1>
+<h1>301 Redirection</h1>
 
-<p>FCIS HTTP server</p>
+<p>Redirection</p>
 
 </body>
 </html>

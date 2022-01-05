@@ -12,7 +12,6 @@ namespace HTTPServer
     class Server
     {
         Socket serverSocket;
-
         public Server(int portNumber, string redirectionMatrixPath)
         {
             //TODO: call this.LoadRedirectionRules passing redirectionMatrixPath to it
@@ -92,7 +91,8 @@ namespace HTTPServer
             string content;
             string defaultPageName = string.Empty;
             //Response response;
-            string redirectionPath = string.Empty;
+            string redirection = string.Empty;
+            
             try
             {
                 //TODO: check for bad request 
@@ -107,6 +107,7 @@ namespace HTTPServer
 
                 // Create OK response
                 bool requestStatus = request.ParseRequest();
+                
                 string Uri;//= request.relativeURI.Replace("/", "\\");
                 if (!requestStatus)
                 {
@@ -116,21 +117,21 @@ namespace HTTPServer
                     defaultPageName = LoadDefaultPage(Configuration.BadRequestDefaultPageName);
                     content = File.ReadAllText(defaultPageName);
                     Response response = new Response(StatusCode.BadRequest, request.HeaderLines["Content-Type"],
-                         content, redirectionPath,request.HttpVersion);
+                         content, redirection,request.HttpVersion);
                     return response;
                 }
                 else if (GetRedirectionPagePathIFExist(request.relativeURI) != string.Empty)
                 {
                     // to display page
-                    /*redirectionPath = GetRedirectionPagePathIFExist(request.relativeURI);
-                    redirectionPath = redirectionPath.Replace("/", "\\");
-                    Uri = Configuration.RootPath + redirectionPath;*/
+                    redirection = GetRedirectionPagePathIFExist(request.relativeURI);
+                    //redirection = redirection.Replace("/", "\\");
+                    //Uri = Configuration.RootPath + redirection;
 
 
                     defaultPageName = LoadDefaultPage(Configuration.RedirectionDefaultPageName);
                     content = File.ReadAllText(defaultPageName);
                     Response response = new Response(StatusCode.Redirect, request.HeaderLines["Content-Type"],
-                         content, redirectionPath, request.HttpVersion);
+                         content, redirection, request.HttpVersion);
                     return response;
                 }
                 else if (!File.Exists(Configuration.RootPath + request.relativeURI))
@@ -138,7 +139,7 @@ namespace HTTPServer
                     defaultPageName = LoadDefaultPage(Configuration.NotFoundDefaultPageName);
                     content = File.ReadAllText(defaultPageName);
                     Response response = new Response(StatusCode.NotFound, request.HeaderLines["Content-Type"],
-                         content, redirectionPath, request.HttpVersion);
+                         content, redirection, request.HttpVersion);
                     return response;
                 }
                 else
@@ -146,7 +147,7 @@ namespace HTTPServer
                     Uri = Configuration.RootPath + request.relativeURI.Replace("/","\\");
                     content = File.ReadAllText(Uri);
                     Response response = new Response(StatusCode.OK, request.HeaderLines["Content-Type"],
-                         content, redirectionPath, request.HttpVersion);
+                         content, redirection, request.HttpVersion);
                     return response;
                 }
                 
@@ -161,7 +162,7 @@ namespace HTTPServer
                 defaultPageName = LoadDefaultPage(Configuration.InternalErrorDefaultPageName);
                 content = File.ReadAllText(defaultPageName);
                 Response response = new Response(StatusCode.InternalServerError, request.HeaderLines["Content-Type"],
-                     content, redirectionPath, request.HttpVersion);
+                     content, redirection, request.HttpVersion);
                 return response;
             }
         }
